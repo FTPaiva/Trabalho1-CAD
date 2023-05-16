@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Multiplies a matrix by an array (assuming they have compatible dimensions)
+// Multiplica a matriz pelo vetor (assumindo que eles possuem dimensões compatíveis)
 void matrixMultiply(int **matrix, int *array, int rows, int cols, int *result) {
     for (int j = 0; j < cols; j++) {
         for (int i = 0; i < rows; i++) {
@@ -12,55 +12,56 @@ void matrixMultiply(int **matrix, int *array, int rows, int cols, int *result) {
 }
 
 int main() {
+    // Inicialização das variáveis do timer
     clock_t start, end;
     float total_time;
-    srand(time(NULL));   // Initialization, should only be called once.
+    // seed para o gerador de números aleatórios
+    srand(time(NULL));
     
-    // Gets the dimensions of the matrix and array
+    // Obtém o tamanho da matriz
     int rows;
     int cols;
-    printf("Enter the number of rows/columns:\n");
+    printf("Número de linhas/colunas:\n");
     scanf("%d", &rows);
     cols = rows;
     
-    // Creates the matrix
+    // Cria a matriz
     int **matrix = (int **)malloc(rows * sizeof(int *));
     for (int i = 0; i < rows; i++) {
         matrix[i] = (int *)malloc(cols * sizeof(int));
     }
     
-    // Creates the array
+    // Cria o vetor
     int *array = (int *)malloc(cols * sizeof(int));
     int *result = (int *)malloc(rows * sizeof(int));
     
     if (matrix == NULL || array == NULL || result == NULL) {
-        printf("Memory allocation failed.\n");
+        printf("Erro ao alocar memória.\n");
         return 1;
     }
 
-    // Populates the matrix
+    // Popula a matriz com números aleatórios variando de 0 a 100
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             matrix[i][j] = rand() % 101;
         }
     }
 
-    // Populates the array
+    // Popula o vetor com números aleatórios variando de 0 a 100
     for (int i = 0; i < cols; i++) {
         array[i] = rand() % 101;
     }
     
-    printf("Starting operation...\n");
-    start = clock(); // Initial time
+    printf("Começando operação...\n");
+    start = clock(); // Começa o timer
 
-    matrixMultiply(matrix, array, rows, cols, result); // Executes A * X
+    matrixMultiply(matrix, array, rows, cols, result); // Executa a operação A * X
     
-    end = clock(); // Final time
-    total_time = ((float)(end - start)) / CLOCKS_PER_SEC; // Gets total time taken by the operation
+    end = clock(); // Termina o timer
+    total_time = ((float)(end - start)) / CLOCKS_PER_SEC; // Calcula tempo total da operação
+    printf("Tempo total: %f\n", total_time);
 
-    printf("Time taken: %f\n", total_time);
-
-    // Free allocated memory
+    // Libera memória alocada
     for (int i = 0; i < rows; i++) {
         free(matrix[i]);
     }
